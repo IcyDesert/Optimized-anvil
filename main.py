@@ -4,25 +4,23 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
-
+from src.model.response import Enchant_response
+from src.model.request import Enchant_request
+from src.services.check import checker_router
 app = FastAPI()
 templates = Jinja2Templates(directory='src/template/')
 
+app.include_router(checker_router)
 
-# 挂载，事实上就是挂载导致了某次接连出404
-# mount会把/解析到./src/static，憨憨了
-#app.mount("/", StaticFiles(directory="./src/static", html=True))
-
-
-@app.get("/anvil/{enchant_id}", response_class=HTMLResponse)
-async def render_HTML(request: Request, enchant_id: str):
+@app.get("/anvil", response_class=HTMLResponse)
+async def render_HTML(request: Enchant_request, enchant_id: int):
     context= {
         "enchant_id": enchant_id,
         }
     return templates.TemplateResponse(
         request = request,
         name = "index.html",
-        context=context,
+        context = context,
         )
 
 if __name__ == "__main__":
