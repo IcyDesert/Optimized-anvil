@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Optimized Anvil - IcyDesert</title>
 </head>
+
 <body>
     <div id="welcome-container">
         <img src="">
@@ -13,18 +15,17 @@
     <div id="side-column">
         <h4>参考资料</h4>
         <a href="https://zh.minecraft.wiki/w/%E9%93%81%E7%A0%A7%E6%9C%BA%E5%88%B6">铁砧机制</a><br>
-        <a href="https://zh.minecraft.wiki/w/%E9%99%84%E9%AD%94#%E9%AD%94%E5%92%92%E6%A6%82%E8%BF%B0">魔咒列表（截至1.20）</a><br>
+        <a
+            href="https://zh.minecraft.wiki/w/%E9%99%84%E9%AD%94#%E9%AD%94%E5%92%92%E6%A6%82%E8%BF%B0">魔咒列表（截至1.20）</a><br>
         <a href="https://zh.minecraft.wiki/">关注 MCWiki 新网址谢谢喵<br></a>（如果你不知道 wiki 迁移的消息）<br>
+        <a href="https://baike.baidu.com/item/%E6%8E%92%E5%BA%8F%E4%B8%8D%E7%AD%89%E5%BC%8F/7775728">排序不等式</a>
     </div>
     <div id="shortcut-container">
-        <div id="shortcut-title">
-            快捷选取栏
-        </div>
+        <div id="shortcut-title">快捷选取栏</div>
         <div id="shortcut">
             <div id="sword">剑🗡——
                 <input type="checkbox" name="sword" value="">标准满配
                 <input type="checkbox" name="sword" value="">满配 + 火焰附加Ⅱ
-                <!--<input type="checkbox" name="sword" value="">满配 + 击退Ⅱ-->
             </div>
             <div id="pickaxe">镐⛏——
                 <input type="checkbox" name="pickaxe" value="">精准满配
@@ -36,78 +37,87 @@
             </div>
         </div>
     </div>
-    <div id="selection-container">
-        <div id="items-select">
-            <h4>物品选择</h4>
-            <div id="armor">盔甲
-                <input type="radio" name="armor" value=1>头盔
-                <input type="radio" name="armor" value=2>胸甲
-                <input type="radio" name="armor" value=3>护腿
-                <input type="radio" name="armor" value=4>靴子
+    <form action="/anvil" method="post">
+        <div id="selection-container">
+            <div id="items-select">
+                <h4>物品选择</h4>
+                <div id="armor">盔甲
+                    {% for item in armor %}
+                    <input id="{{ item.item_type ~ '_' ~ item.specific_type }}" type="radio" name="armor" value="{{ item.item_type.value ~ '_' ~ item.specific_type.value }}">
+                    <label for="{{ item.item_type ~ '_' ~ item.specific_type }}">{{ item.name }}</label>
+                    {% endfor %}
+                </div>
+                <div id="weapon">武器
+                    {% for item in weapon %}
+                    <input id="{{ item.item_type ~ '_' ~ item.specific_type }}" type="radio" name="armor" value="{{ item.item_type.value ~ '_' ~ item.specific_type.value }}">
+                    <label for="{{ item.item_type ~ '_' ~ item.specific_type }}">{{ item.name }}</label>
+                    {% endfor %}
+                </div>
+                <div id="tool">工具
+                    {% for item in tool %}
+                    <input id="{{ item.item_type ~ '_' ~ item.specific_type }}" type="radio" name="armor" value="{{ item.item_type.value ~ '_' ~ item.specific_type.value }}">
+                    <label for="{{ item.item_type ~ '_' ~ item.specific_type }}">{{ item.name }}</label>
+                    {% endfor %}
+                </div>
             </div>
-            <div id="weapon">武器
-                <input type="radio" name="weapon" value=1>剑
-                <input type="radio" name="weapon" value=2>弓
-                <!--<input type="checkbox" name="weapon" value=3>弩-->
-                <!--<input type="checkbox" name="weapon" value=4>三叉戟-->
+
+            <div id="enchantment-select">
+                <div id="item-universal">
+                    <h4>通用</h4>
+                    {% for item in item_universal %}
+                    <input id="{{ item.ID }}" type="checkbox" name="enchantment[]" value={{ item.ID.value }}>
+                    <label for="{{ item.ID }}">{{ item.name }}</label><br>
+                    {% endfor %}
+                </div>
+                
+                <div id="armor-universal">
+                    <h4>盔甲通用</h4>
+                    {% for item in armor_universal %}
+                    <input id="{{ item.ID }}" type="checkbox" name="enchantment[]" value={{ item.ID.value }}>
+                    <label for="{{ item.ID }}">{{ item.name }}</label><br>
+                    {% endfor %}
+                </div>
+
+                <div id="armor-specific">
+                    <h4>盔甲专用</h4>
+                    {% for item in armor_specific %}
+                    <input id="{{ item.ID }}" type="checkbox" name="enchantment[]" value={{ item.ID.value }}>
+                    <label for="{{ item.ID }}">{{ item.name }}</label><br>
+                    {% endfor %}
+                </div>
+
+                <div id="tool-universal">
+                    <h4>工具通用</h4>
+                    {% for item in tool_universal %}
+                    <input id="{{ item.ID }}" type="checkbox" name="enchantment[]" value={{ item.ID.value }}>
+                    <label for="{{ item.ID }}">{{ item.name }}</label><br>
+                    {% endfor %}
+                </div>
+
+                <div id="sword-specific">
+                    <h4>剑专用</h4>
+                    {% for item in sword_specific %}
+                    <input id="{{ item.ID }}" type="checkbox" name="enchantment[]" value={{ item.ID.value }}>
+                    <label for="{{ item.ID }}">{{ item.name }}</label><br>
+                    {% endfor %}
+                </div>
+
+                <div id="bow-specific">
+                    <h4>弓专用</h4>
+                    {% for item in bow_specific %}
+                    <input id="{{ item.ID }}" type="checkbox" name="enchantment[]" value={{ item.ID.value }}>
+                    <label for="{{ item.ID }}">{{ item.name }}</label><br>
+                    {% endfor %}
+                </div>
             </div>
-            <div id="tool">武器
-                <input type="radio" name="tool" value=1>镐
-                <input type="radio" name="tool" value=2>斧
-                <input type="radio" name="tool" value=3>锹
-                <input type="radio" name="tool" value=4>锄
+
+            <div id="functions">
+                <button id="gotcha">附魔！</button>
+                <button id="clear">清空</button>
             </div>
         </div>
-        <div id="enchantment-select">
-            <div id="item-universal">
-                <h4>通用</h4>
-                <input type="checkbox" name="enchantment[]" value=17>耐久Ⅲ
-                <input type="checkbox" name="enchantment[]" value=26>经验修补
-            </div>
-            <div id="armor-universal">
-                <h4>盔甲通用</h4>
-                <input type="checkbox" name="enchantment[]" value=0>保护Ⅳ
-                <input type="checkbox" name="enchantment[]" value=1>火焰保护Ⅳ
-                <input type="checkbox" name="enchantment[]" value=2>摔落缓冲Ⅳ
-                <input type="checkbox" name="enchantment[]" value=3>爆炸保护Ⅳ
-                <input type="checkbox" name="enchantment[]" value=4>弹射物保护Ⅳ
-                <input type="checkbox" name="enchantment[]" value=5>荆棘Ⅲ
-            </div>
-            <div id="armor-specfic">
-                <h4>盔甲专用</h4>
-                <input type="checkbox" name="enchantment[]" value=6>水下呼吸Ⅲ
-                <input type="checkbox" name="enchantment[]" value=7>深海探索者Ⅲ
-                <input type="checkbox" name="enchantment[]" value=9>水下速掘Ⅲ
-            </div>
-            <div id="tool-universal">
-                <h4>工具通用</h4>
-                <input type="checkbox" name="enchantment[]" value=15>效率Ⅴ
-                <input type="checkbox" name="enchantment[]" value=16>精准采集
-                <input type="checkbox" name="enchantment[]" value=18>时运Ⅲ
-            </div>
-            <div id="sword-specfic">
-                <h4>剑专用</h4>
-                <input type="checkbox" name="enchantment[]" value=9>锋利Ⅴ
-                <input type="checkbox" name="enchantment[]" value=10>亡灵杀手Ⅴ
-                <input type="checkbox" name="enchantment[]" value=11>节肢杀手Ⅴ
-                <input type="checkbox" name="enchantment[]" value=12>击退Ⅱ
-                <input type="checkbox" name="enchantment[]" value=13>火焰附加Ⅱ
-                <input type="checkbox" name="enchantment[]" value=14>掠夺Ⅲ
-                <input type="checkbox" name="enchantment[]" value=38>横扫之刃Ⅲ
-            </div>
-            <div id="bow-specfic">
-                <h4>弓专用</h4>
-                <input type="checkbox" name="enchantment[]" value=19>力量Ⅴ
-                <input type="checkbox" name="enchantment[]" value=20>冲击Ⅱ
-                <input type="checkbox" name="enchantment[]" value=21>火矢
-                <input type="checkbox" name="enchantment[]" value=22>无限
-            </div>
-        </div>
-    </div>
-    <div id="functions">
-        <button id="gotcha">附魔！</button>
-        <button id="clear">清空</button>
-    </div>
+    </form>
     <div id="result-showing"></div>
 </body>
+
 </html>

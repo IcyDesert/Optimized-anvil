@@ -1,7 +1,7 @@
-from pydantic import BaseModel
+from fastapi import Request
 from typing import List
 
 
-class Enchant_request(BaseModel):
+class Enchant_request(Request):
     item: str
     enchantment_list: List[int]
