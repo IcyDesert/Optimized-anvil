@@ -1,5 +1,6 @@
-"""可获取魔咒（或者说可在网页选择的魔咒）分类"""
+"""可获取魔咒（或者说可在网页选择的魔咒）数据库，分类存储"""
 from .enchantment import Enchantment, Enchantment_ID as _id
+from itertools import chain
 
 # 物品通用
 item_universial = (
@@ -202,3 +203,16 @@ bow_specific = (
         }
     )
 )
+
+categories: tuple[tuple[Enchantment]] = (
+    item_universial,
+    armor_universal,
+    armor_specific,
+    tool_universal,
+    sword_specific,
+    bow_specific
+)
+
+# 《魔咒大全》
+all_enchantments: list[Enchantment] = list(chain(*categories))
+all_enchantments.sort(key=lambda enc: enc.ID.value)
