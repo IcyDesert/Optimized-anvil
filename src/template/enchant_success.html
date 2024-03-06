@@ -1,0 +1,7 @@
+{% extends index.html %}
+
+{% block enchant-result %}
+<span>附魔成功！最优顺序为<br>
+{{ optimized_order | join("→", attribute="name") }}
+</span>
+{% endblock enchant-result %}

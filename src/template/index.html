@@ -17,7 +17,8 @@
         <a href="https://zh.minecraft.wiki/w/%E9%93%81%E7%A0%A7%E6%9C%BA%E5%88%B6">铁砧机制</a><br>
         <a
             href="https://zh.minecraft.wiki/w/%E9%99%84%E9%AD%94#%E9%AD%94%E5%92%92%E6%A6%82%E8%BF%B0">魔咒列表（截至1.20）</a><br>
-        <a href="https://zh.minecraft.wiki/">关注 MCWiki 新网址谢谢喵<br></a>（如果你不知道 wiki 迁移的消息）<br>
+        <a href="https://zh.minecraft.wiki/w/Minecraft_Wiki:%E8%BF%81%E7%A7%BB%E9%80%9A%E7%9F%A5">关注 MCWiki
+            新网址谢谢喵<br></a>（如果你不知道，速速点上面链接）<br>
         <a href="https://baike.baidu.com/item/%E6%8E%92%E5%BA%8F%E4%B8%8D%E7%AD%89%E5%BC%8F/7775728">排序不等式</a>
     </div>
     <div id="shortcut-container">
@@ -37,87 +38,43 @@
             </div>
         </div>
     </div>
-    <form action="/anvil" method="post">
+    <form action="/enchant_query/" method="post">
         <div id="selection-container">
             <div id="items-select">
                 <h4>物品选择</h4>
-                <div id="armor">盔甲
-                    {% for item in armor %}
-                    <input id="{{ item.item_type ~ '_' ~ item.specific_type }}" type="radio" name="armor" value="{{ item.item_type.value ~ '_' ~ item.specific_type.value }}">
+                {% for i in range(item_categories_len) %}
+                <div>{{ item_categories_names[i] }}
+                    {% for item in item_categories[i] %}
+                    <input id="{{ item.item_type ~ '_' ~ item.specific_type }}" type="radio" name="item_code"
+                        value="{{ item.item_type.value ~ '_' ~ item.specific_type.value }}">
                     <label for="{{ item.item_type ~ '_' ~ item.specific_type }}">{{ item.name }}</label>
                     {% endfor %}
                 </div>
-                <div id="weapon">武器
-                    {% for item in weapon %}
-                    <input id="{{ item.item_type ~ '_' ~ item.specific_type }}" type="radio" name="armor" value="{{ item.item_type.value ~ '_' ~ item.specific_type.value }}">
-                    <label for="{{ item.item_type ~ '_' ~ item.specific_type }}">{{ item.name }}</label>
-                    {% endfor %}
-                </div>
-                <div id="tool">工具
-                    {% for item in tool %}
-                    <input id="{{ item.item_type ~ '_' ~ item.specific_type }}" type="radio" name="armor" value="{{ item.item_type.value ~ '_' ~ item.specific_type.value }}">
-                    <label for="{{ item.item_type ~ '_' ~ item.specific_type }}">{{ item.name }}</label>
-                    {% endfor %}
-                </div>
+                {% endfor %}
             </div>
 
             <div id="enchantment-select">
-                <div id="item-universal">
-                    <h4>通用</h4>
-                    {% for item in item_universal %}
-                    <input id="{{ item.ID }}" type="checkbox" name="enchantment[]" value={{ item.ID.value }}>
+                {% for i in range(enc_categories_len) %}
+                <div class="select-column">
+                    <h4>{{ enc_categories_names[i] }}</h4>
+                    {% for item in enc_categories[i] %}
+                    <input id="{{ item.ID }}" type="checkbox" name="req_enchantments_id" value={{ item.ID.value }}>
                     <label for="{{ item.ID }}">{{ item.name }}</label><br>
                     {% endfor %}
                 </div>
-                
-                <div id="armor-universal">
-                    <h4>盔甲通用</h4>
-                    {% for item in armor_universal %}
-                    <input id="{{ item.ID }}" type="checkbox" name="enchantment[]" value={{ item.ID.value }}>
-                    <label for="{{ item.ID }}">{{ item.name }}</label><br>
-                    {% endfor %}
-                </div>
-
-                <div id="armor-specific">
-                    <h4>盔甲专用</h4>
-                    {% for item in armor_specific %}
-                    <input id="{{ item.ID }}" type="checkbox" name="enchantment[]" value={{ item.ID.value }}>
-                    <label for="{{ item.ID }}">{{ item.name }}</label><br>
-                    {% endfor %}
-                </div>
-
-                <div id="tool-universal">
-                    <h4>工具通用</h4>
-                    {% for item in tool_universal %}
-                    <input id="{{ item.ID }}" type="checkbox" name="enchantment[]" value={{ item.ID.value }}>
-                    <label for="{{ item.ID }}">{{ item.name }}</label><br>
-                    {% endfor %}
-                </div>
-
-                <div id="sword-specific">
-                    <h4>剑专用</h4>
-                    {% for item in sword_specific %}
-                    <input id="{{ item.ID }}" type="checkbox" name="enchantment[]" value={{ item.ID.value }}>
-                    <label for="{{ item.ID }}">{{ item.name }}</label><br>
-                    {% endfor %}
-                </div>
-
-                <div id="bow-specific">
-                    <h4>弓专用</h4>
-                    {% for item in bow_specific %}
-                    <input id="{{ item.ID }}" type="checkbox" name="enchantment[]" value={{ item.ID.value }}>
-                    <label for="{{ item.ID }}">{{ item.name }}</label><br>
-                    {% endfor %}
-                </div>
+                {% endfor %}
             </div>
 
             <div id="functions">
-                <button id="gotcha">附魔！</button>
-                <button id="clear">清空</button>
+                <button type="submit">附魔！</button>
+                <button type="submit">清空</button>
             </div>
         </div>
     </form>
-    <div id="result-showing"></div>
+    <div id="result-showing">
+        {% block enchant_result %}
+        {% endblock enchant_result %}
+    </div>
 </body>
 
 </html>

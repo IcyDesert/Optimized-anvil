@@ -1,36 +1,35 @@
 """可附魔物品的模型"""
-from typing import Set, Dict
 from enum import Enum
-from .enchantment import Enchantment_ID
+from .enchantment import Enchantment
 from pydantic import BaseModel
-from .enchantments_list import item_universial, tool_universal
+from .enchantments_list import item_universial, tool_universal, all_enchantments as _all_enc
 
 
 class ItemType(Enum):
-    ARMOR = 1
-    WEAPON = 2
-    TOOL = 3
+    ARMOR = 0
+    WEAPON = 1
+    TOOL = 2
 
 
 class ArmorType(Enum):
-    HELMET = 1
-    CHESTPLATE = 2
-    LEGGINGS = 3
-    BOOTS = 4
+    HELMET = 0
+    CHESTPLATE = 1
+    LEGGINGS = 2
+    BOOTS = 3
 
 
 class WeaponType(Enum):
-    SWORD = 1
-    BOW = 2
-    CROSSBOW = 3
-    TRIDENT = 4
+    SWORD = 0
+    BOW = 1
+    CROSSBOW = 2
+    TRIDENT = 3
 
 
 class ToolType(Enum):
-    PICKAXE = 1
-    AXE = 2
-    SHOVEL = 3
-    HOE = 4
+    PICKAXE = 0
+    AXE = 1
+    SHOVEL = 2
+    HOE = 3
 
 
 class Item(BaseModel):
@@ -43,18 +42,19 @@ class Item(BaseModel):
     name: str
     item_type: ItemType
     specific_type: ArmorType | WeaponType | ToolType
-    compatiable: Set[Enchantment_ID]
+    compatiable: set[Enchantment]
 
-    def conflict_check(self, req_enchantment: Dict[Enchantment_ID, int]) -> None:
-        """检查是否有不相容魔咒"""
-        pass
-        # for item in req_enchantment:
-        #     if item in self.compatable:
-        #         self.success = True
-        #         print(
-        #             f"Conflict found: #{self.item_type}-#{self.specific_type} conflict with #{item} !")
-        #         return None
-        # self.success = True
+
+    def conflict_check(self, req_enchantment: list[int]) -> bool | tuple[str, list[str]]:
+        """检查是否有不相容魔咒。
+        如果不相容返回二元元组 (本物品的名称, 所有不兼容物品的名称列表) ，如果相容则返回False方便程序直接判断真/假"""
+        compatiable_ID: set[int] = {i.ID.value for i in self.compatiable}
+        result = set(req_enchantment) - compatiable_ID
+        if result:
+            _conflict = [_all_enc[_id].name for _id in result]
+            return (self.name, _conflict)
+        return False
+
 
 # 细分子类
 class Armor(Item):
@@ -67,7 +67,5 @@ class Weapon(Item):
 
 class Tool(Item):
     item_type: ItemType = ItemType.TOOL
-    # 工具类只能附上「通用」和「工具通用」两种附魔，因此在模型里提前设定默认值
-    compatiable: Set[Enchantment_ID] = {
-        item.ID for item in (item_universial + tool_universal) 
-    }
+    # 工具类只能附上「通用」和「工具通用」两大类附魔，因此在模型里提前设定默认值
+    compatiable: set[Enchantment] = set(item_universial + tool_universal)
