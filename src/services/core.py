@@ -98,7 +98,7 @@ def gen_minxp_list(req_lst: list[Enchantment]):
     optimized_order = [tup[0].name for tup in combination]
     
     l = len(req_lst)
-    tmplist = list(range(1, l+1)).reverse()
-    totalxp = sum(tmplist[i]*combination[i][1] for i in range(l))
+    tmplist = [x for x in range(l, 0, -1)]
+    totalxp = sum([tmplist[i]*combination[i][1] for i in range(l)])
 
     return optimized_order, totalxp
