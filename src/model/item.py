@@ -50,8 +50,9 @@ class Item(BaseModel):
 
     def conflict_check(self, req_enchantment: list[int]) -> bool | tuple[str, list[str]]:
         """检查是否有不相容魔咒。
-        如果不相容返回二元元组 (本物品名称, 所有不兼容魔咒的名称列表) ，如果相容则返回False方便程序通过布尔值直接判断，虽然不太合人的逻辑。
-        param req_enchantment 要附魔的魔咒ID（整数）的列表"""
+        如果不相容返回二元元组 (本物品的名称, 所有不兼容魔咒的名称列表) ，如果相容则返回False方便程序直接判断真/假。
+        参数：\n
+        req_enchantment 要附魔的魔咒ID（整数）的列表"""
         compatiable_ID: set[int] = {i.ID.value for i in self.compatiable}
 
         # result is a set of enchantments, which are in the request list but not in compatiable list
