@@ -2,10 +2,9 @@
 fastapi-learn/
 lazy.bat
 Enchantment_translation.txt
-update.txt
+update-progress.*
 
 # Python相关
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

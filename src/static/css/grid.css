@@ -1,0 +1,86 @@
+body {
+    font-family: 'Consolas', sans-serif, serif;
+}
+
+
+.center {
+    display: flex;
+    justify-content: center;
+}
+
+.text-middle {
+    text-align: center;
+}
+.children-center {
+    align-items: center;
+}
+
+.center-with-margin {
+    margin: 0 auto;
+}
+
+.inline-parallel{
+    display: inline-table;
+    margin-right: 5px;
+}
+
+.inline-block{
+    display: inline-block;
+}
+
+.vertical-middle{
+    vertical-align: middle;
+}
+
+.bold {
+    font-weight: bold;
+}
+.grid-body-container{
+    display: grid;
+    grid-template-columns: 5fr 10fr 5fr;
+    grid-template-rows: 50px 80px 1fr 2fr 10px;
+    gap: 20px 20px;
+    grid-auto-flow: row dense;
+    height: 100vh;
+    overflow: auto;
+}
+
+#welcome-container{
+    grid-column: span 3;
+    grid-row: span 1;
+}
+
+#sidebar{
+    grid-row: span 2;
+    grid-column: span 1;
+    margin: 0 auto;
+    padding: 15px;
+    border: 0.5rem ridge #3fa0f0
+}
+
+#shortcut-container{
+    grid-row: span 1;
+    grid-column: span 1;
+}
+
+#selection-container{
+    grid-row: 3 / 4;
+    grid-column: 2 / 3;
+}
+
+#shortcut {
+    padding-bottom: 8px;
+    border-bottom: 5px dashed rgb(223, 166, 91);
+}
+button{
+    margin: 10px 15px;
+}
+
+h4{
+    margin: 5px 0;
+}
+
+img.vertical-middle {
+    height: auto;
+    width: 50px;
+}

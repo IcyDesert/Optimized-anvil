@@ -10,7 +10,7 @@ from src.services import core
 
 app = FastAPI()
 app.include_router(core.checker_sorter)
-
+app.mount("/static", StaticFiles(directory="./src/static"), name="static", )
 
 templates = Jinja2Templates(directory='src/template/')
 

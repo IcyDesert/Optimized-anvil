@@ -4,76 +4,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/grid.css')}}">
+    <link rel="shortcut icon" href="{{ url_for('static', path='favicon.ico') }}" type="image/x-icon">
     <title>Optimized Anvil - IcyDesert</title>
 </head>
 
 <body>
-    <div id="welcome-container">
-        <img src="">
-        <p>欢迎使用 Optimized Anvil /『铁砧附魔最优解』！</p>
-    </div>
-    <div id="side-column">
-        <h4>参考资料</h4>
-        <a href="https://zh.minecraft.wiki/w/%E9%93%81%E7%A0%A7%E6%9C%BA%E5%88%B6">铁砧机制</a><br>
-        <a
-            href="https://zh.minecraft.wiki/w/%E9%99%84%E9%AD%94#%E9%AD%94%E5%92%92%E6%A6%82%E8%BF%B0">魔咒列表（截至1.20）</a><br>
-        <a href="https://zh.minecraft.wiki/w/Minecraft_Wiki:%E8%BF%81%E7%A7%BB%E9%80%9A%E7%9F%A5">关注 MCWiki
-            新网址谢谢喵<br></a>（如果你不知道，速速点上面链接）<br>
-        <a href="https://baike.baidu.com/item/%E6%8E%92%E5%BA%8F%E4%B8%8D%E7%AD%89%E5%BC%8F/7775728">排序不等式</a>
-    </div>
-    <div id="shortcut-container">
-        <div id="shortcut-title">快捷选取栏</div>
-        <div id="shortcut">
-            <div id="sword">剑🗡——
-                <input type="checkbox" name="sword" value="">标准满配
-                <input type="checkbox" name="sword" value="">满配 + 火焰附加Ⅱ
+    <div class="grid-body-container">
+        <div id="welcome-container" class="center children-center">
+            <img class="vertical-middle" src="{{ url_for('static', path='Anvil.webp')}}">
+            <p>欢迎使用 Optimized Anvil /『铁砧附魔最优解』！</p>
+        </div>
+        <div id="sidebar">
+            <h4>参考资料</h4>
+            <div>
+                <a href="https://zh.minecraft.wiki/w/%E9%93%81%E7%A0%A7%E6%9C%BA%E5%88%B6">
+                    铁砧机制
+                </a>
             </div>
-            <div id="pickaxe">镐⛏——
-                <input type="checkbox" name="pickaxe" value="">精准满配
-                <input type="checkbox" name="pickaxe" value="">时运满配
+            <div>
+                <a href="https://zh.minecraft.wiki/w/%E9%99%84%E9%AD%94#%E9%AD%94%E5%92%92%E6%A6%82%E8%BF%B0">
+                    魔咒列表（截至1.20）
+                </a>
             </div>
-            <div id="shovel-axe">锹/斧——
-                <input type="checkbox" name="shovel-axe" value="">标准满配
-                <input type="checkbox" name="shovel-axe" value="">满配 + 时运Ⅲ
+            <div>
+                <a href="https://baike.baidu.com/item/%E6%8E%92%E5%BA%8F%E4%B8%8D%E7%AD%89%E5%BC%8F/7775728">
+                    排序不等式
+                </a>
+            </div>
+            <div>
+                <a href="https://zh.minecraft.wiki/w/Minecraft_Wiki:%E8%BF%81%E7%A7%BB%E9%80%9A%E7%9F%A5">
+                    Minecraft Wiki 中文站迁移啦！
+                </a>
+            </div>
+            <h4>
+                联系方式
+            </h4>
+        </div>
+        <div id="shortcut-container">
+            <h4 class="center">快捷选取栏</h4>
+            <div id="shortcut" class="text-middle">
+                <div>剑🗡——
+                    <input id="sword_standard" type="radio" name="sword" value="">
+                    <label for="sword_standard">标准满配</label>
+                    <input id="sword_standard_fireaspect" type="radio" name="sword" value="">
+                    <label for="sword_standard_fireaspect">满配 + 火焰附加Ⅱ</label>
+                </div>
+                <div>镐⛏ / 锹 / 斧——
+                    <input id="pickaxe_silktouch" type="radio" name="tool" value="">
+                    <label for="pickaxe_silktouch">精准满配</label>
+                    <input id="pickaxe_fortune" type="radio" name="tool" value="">
+                    <label for="pickaxe_fortune">时运满配</label>
+                </div>
             </div>
         </div>
-    </div>
-    <form action="/enchant_query/" method="post">
         <div id="selection-container">
-            <div id="items-select">
-                <h4>物品选择</h4>
-                {% for i in range(item_categories_len) %}
-                <div>{{ item_categories_names[i] }}
-                    {% for item in item_categories[i] %}
-                    <input id="{{ item.item_type ~ '_' ~ item.specific_type }}" type="radio" name="item_code"
-                        value="{{ item.item_type.value ~ '_' ~ item.specific_type.value }}">
-                    <label for="{{ item.item_type ~ '_' ~ item.specific_type }}">{{ item.name }}</label>
+            <form action="/enchant_query/" method="post">
+                <div id="items-select">
+                    <h4>物品选择：</h4>
+                    <div>
+                    {% for i in range(item_categories_len) %}
+                    <div>
+                        <span class="bold">{{ item_categories_names[i] }}</span>
+                        {% for item in item_categories[i] %}
+                        <input id="{{ item.item_type ~ '_' ~ item.specific_type }}" type="radio" name="item_code"
+                            value="{{ item.item_type.value ~ '_' ~ item.specific_type.value }}">
+                        <label for="{{ item.item_type ~ '_' ~ item.specific_type }}">{{ item.name }}</label>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                    </div>
+                </div>
+
+                <div id="enchantment-select">
+                    <h4>附魔选择：</h4>
+                    {% for i in range(enc_categories_len) %}
+                    <div class="inline-parallel">
+                        <h4>{{ enc_categories_names[i] }}</h4>
+                        {% for item in enc_categories[i] %}
+                        <input id="{{ item.ID }}" type="checkbox" name="req_enchantments_id" value={{ item.ID.value }}>
+                        <label for="{{ item.ID }}">{{ item.name }}</label><br>
+                        {% endfor %}
+                    </div>
                     {% endfor %}
                 </div>
-                {% endfor %}
-            </div>
 
-            <div id="enchantment-select">
-                {% for i in range(enc_categories_len) %}
-                <div class="select-column">
-                    <h4>{{ enc_categories_names[i] }}</h4>
-                    {% for item in enc_categories[i] %}
-                    <input id="{{ item.ID }}" type="checkbox" name="req_enchantments_id" value={{ item.ID.value }}>
-                    <label for="{{ item.ID }}">{{ item.name }}</label><br>
-                    {% endfor %}
+                <div id="functions" class="center">
+                    <button type="submit">附魔！</button>
+                    <button type="reset">清空</button>
                 </div>
-                {% endfor %}
-            </div>
-
-            <div id="functions">
-                <button type="submit">附魔！</button>
-                <button type="submit">清空</button>
-            </div>
+            </form>
         </div>
-    </form>
-    <div id="result-showing">
-        {% block enchant_result %}
-        {% endblock enchant_result %}
+        <div id="result-showing">
+            {% block enchant_result %}
+            {% endblock enchant_result %}
+        </div>
     </div>
 </body>
 
