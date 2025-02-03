@@ -1,5 +1,9 @@
 # Optimized-anvil
 
+## 由于已有同类工具 [最佳附魔指南](https://zh.minecraft.wiki/w/Tutorial:%E6%9C%80%E4%BD%B3%E9%99%84%E9%AD%94%E6%8C%87%E5%8D%97)  ，本项目不再更新。
+## 2025.02.03
+
+---
 突发奇想，做的一个我的世界铁砧附魔最优顺序网页，旨在用更少的经验等级消耗达到附魔目的。
 程序预计使用 browser/server 形式，server 端计划是 FastAPI 框架，核心逻辑是「排序不等式」。
 
